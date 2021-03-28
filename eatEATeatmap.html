@@ -53,6 +53,7 @@
       color:black;
       font-size:16px;
       font-weight:bold;
+      text-align: center;
       }
 
 
@@ -115,14 +116,14 @@
         {
             content: '<div class="overlaybox">' +
         '    <div class="boxtitle">백곰 막걸리</div>' +
-        '    <div class="first">' + '</div>' ,
+        '    <div class="first">' + '</div>' + '</div>',
             latlng: new kakao.maps.LatLng(37.5258256,127.0348491)
           
           },
         {
             content: '<div class="overlaybox">' +
         '    <div class="boxtitle">황재벌 쭈꾸미</div>' +
-        '    <div class="snd">' + '</div>', 
+        '    <div class="snd">' + '</div>'+ '</div>', 
             latlng: new kakao.maps.LatLng(37.4860923,127.0292441)
         },
         {
@@ -141,7 +142,7 @@
     for (var i = 0; i < positions.length; i ++) {
         
         // 마커 이미지의 이미지 크기 입니다
-        var imageSize = new kakao.maps.Size(80, 85); 
+        var imageSize = new kakao.maps.Size(70, 75); 
         
         // 마커 이미지를 생성합니다    
         var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
