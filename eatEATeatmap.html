@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <title>eatEATeatmap</title>
+    <STYLE>
+        body {
+            background-color: #9de1de;
+        }
+
+           
+    .custom_zoomcontrol {
+        position:absolute;
+        top:50px;
+        right:10px;
+        width:36px;
+        height:80px;
+        overflow:hidden;
+        z-index:1;
+        background-color:#f5f5f5;
+        } 
+
+    .custom_zoomcontrol span {
+        display:block;
+        width:36px;
+        height:40px;
+        text-align:center;
+        cursor:pointer;
+        
+        }     
+
+    .custom_zoomcontrol span img {
+        width:15px;
+        height:15px;
+        padding:12px 0;
+        border:none;
+        
+        }      
+
+    .custom_zoomcontrol span:first-child{
+        border-bottom:1px solid #bfbfbf;
+        }   
+
+
+    .overlaybox {
+      position:relative;
+      width:360px;
+      height:350px;
+      background:url('https://www.freeiconspng.com/uploads/text-box-png-27.png') no-repeat;
+      padding:15px 10px;
+      }
+
+    .overlaybox .boxtitle {
+      color:black;
+      font-size:16px;
+      font-weight:bold;
+      }
+
+
+    .overlaybox .first {
+      position:relative;
+      width:247px;
+      height:136px;
+      background: url('https://ssproxy.ucloudbiz.olleh.com/v1/AUTH_e59809eb-bdc9-44d7-9d8f-2e7f0e47ba91/store16/9cc16a449bd0ca0327e0bb3f900bb0bd_934x937.png') 
+      no-repeat;
+      margin-bottom:8px;
+      
+      }
+
+    </STYLE>
+</head>
+<body>
+    <div id="map" style="width:100%;height:600px;"></div>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=68675156bce15efdd8c6effc94bccfdf"></script>
+    <script>
+    
+    var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
+        mapOption = { 
+            center: new kakao.maps.LatLng(36.5737257,127.0017979), // 지도의 중심좌표
+            level: 13
+           // 지도의 확대 레벨
+        };
+    
+    var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+    
+    // 지도 확대, 축소 컨트롤에서 확대 버튼을 누르면 호출되어 지도를 확대하는 함수입니다
+    function zoomIn() {
+        map.setLevel(map.getLevel() - 1);
+    }
+    
+    // 지도 확대, 축소 컨트롤에서 축소 버튼을 누르면 호출되어 지도를 확대하는 함수입니다
+    function zoomOut() {
+        map.setLevel(map.getLevel() + 1);
+    }
+    
+     
+    // 마커를 표시할 위치와 title 객체 배열입니다 
+    var positions = [
+        {
+            content: '<div class="overlaybox">' +
+        '    <div class="boxtitle">백곰 막걸리</div>' +
+        '    <div class="first">' + '</div>' ,
+            latlng: new kakao.maps.LatLng(37.5258256,127.0348491)
+          
+          },
+        {
+            content: '<div>황재벌</div>', 
+            latlng: new kakao.maps.LatLng(37.4860923,127.0292441)
+        },
+        {
+            content: '<div>애플하우스</div>', 
+            latlng: new kakao.maps.LatLng(37.5017509,126.9879399)
+        },
+        {
+            content: '<div>디라이프스타일 키친</div>',
+            latlng: new kakao.maps.LatLng(37.5683731,126.9756013)
+        }
+    ];
+    
+    // 마커 이미지의 이미지 주소입니다
+    var imageSrc = "babmark.jpg"; 
+        
+    for (var i = 0; i < positions.length; i ++) {
+        
+        // 마커 이미지의 이미지 크기 입니다
+        var imageSize = new kakao.maps.Size(30, 35); 
+        
+        // 마커 이미지를 생성합니다    
+        var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
+        
+        // 마커를 생성합니다
+        var marker = new kakao.maps.Marker({
+            map: map, // 마커를 표시할 지도
+            position: positions[i].latlng, // 마커를 표시할 위치
+            title : positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+            image : markerImage // 마커 이미지 
+        });
+    
+      // 마커에 표시할 인포윈도우를 생성합니다 
+        var infowindow = new kakao.maps.InfoWindow({
+            content: positions[i].content // 인포윈도우에 표시할 내용
+        });
+    
+    
+    
+    
+        // 마커에 mouseover 이벤트와 mouseout 이벤트를 등록합니다
+        // 이벤트 리스너로는 클로저를 만들어 등록합니다 
+        // for문에서 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
+        kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
+        kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
+    }
+    
+    // 인포윈도우를 표시하는 클로저를 만드는 함수입니다 
+    function makeOverListener(map, marker, infowindow) {
+        return function() {
+            infowindow.open(map, marker);
+        };
+    }
+    
+    // 인포윈도우를 닫는 클로저를 만드는 함수입니다 
+    function makeOutListener(infowindow) {
+        return function() {
+            infowindow.close();
+        };
+    }
+    
+    
+    </script>
+    
+    
+    
+    
+    
+        <!-- 지도 확대, 축소 컨트롤 div 입니다 -->
+        <div class="custom_zoomcontrol radius_border"> 
+            <span onclick="zoomIn()"><img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_plus.png" alt="확대"></span>  
+            <span onclick="zoomOut()"><img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_minus.png" alt="축소"></span>
+        </div>
+    
+</body>
