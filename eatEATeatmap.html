@@ -69,10 +69,17 @@
     </STYLE>
 </head>
 <body>
-    <div id="map" style="width:100%;height:600px;"></div>
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=68675156bce15efdd8c6effc94bccfdf"></script>
-    <script>
+    <div 
+    id="map" 
+    style="width:100%;height:600px;">
+    </div>
+
+    <script 
+    type="text/javascript" 
+    src="//dapi.kakao.com/v2/maps/sdk.js?appkey=68675156bce15efdd8c6effc94bccfdf">
+    </script>
     
+    <script>
     var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
         mapOption = { 
             center: new kakao.maps.LatLng(36.5737257,127.0017979), // 지도의 중심좌표
@@ -117,7 +124,7 @@
     ];
     
     // 마커 이미지의 이미지 주소입니다
-    var imageSrc = "babmark.jpg"; 
+    var imageSrc = "babmark.png"; 
         
     for (var i = 0; i < positions.length; i ++) {
         
@@ -167,11 +174,7 @@
     
     </script>
     
-    
-    
-    
-    
-        <!-- 지도 확대, 축소 컨트롤 div 입니다 -->
+    <!-- 지도 확대, 축소 컨트롤 div 입니다 -->
         <div class="custom_zoomcontrol radius_border"> 
             <span onclick="zoomIn()"><img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_plus.png" alt="확대"></span>  
             <span onclick="zoomOut()"><img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_minus.png" alt="축소"></span>
